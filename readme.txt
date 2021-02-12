@@ -3,8 +3,8 @@ Contributors: managewp, wpmudev
 Donate link:
 Tags: links, broken, maintenance, blogroll, custom fields, admin, comments, posts
 Requires at least: 3.2
-Tested up to: 5.3
-Stable tag: 1.11.10
+Tested up to: 5.3.2
+Stable tag: 1.11.11
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -68,6 +68,15 @@ To upgrade your installation
 
 == Changelog ==
 
+= 1.11.11 =
+* Fixed SQL errors caused on some hosts.
+* Fixed search filters & pagination.
+* Fixed link table design in mobile devices.
+* Fixed deprecated functions on PHP 7.4
+* Fixed filter_var deprecated notices.
+* Improved code with WPCS.
+* Added a new API key for the YouTube API.
+
 = 1.11.10 =
 * Fixed create_function deprecated notices.
 * Fixed missing license information.
@@ -75,6 +84,7 @@ To upgrade your installation
 * Merges cron schedules into 1 hook (Thanks to [Der Mundschenk & Compagnie](https://github.com/mundschenk-at))
 * Add escaping to search params.
 * Tested up to WordPress 5.3
+* Updated laguage files
 
 = 1.11.9 =
 * Fixed Reflected XSS (Thanks to [Tobias Fink](https://github.com/sbaresearch/advisories/tree/public/2019/SBA-ADV-20190913-02_WordPress_Plugin_Broken_Link_Checker) for the report)
