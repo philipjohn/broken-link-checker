@@ -6,32 +6,32 @@
  * @author Matthias Sommerfeld, <mso@phlylabs.de>
  * @version 0.1.0
  */
- 
+
 /**
  * Convert a string from any of various encodings to UTF-8
  *
  * @param  string  String to encode
  *[@param  string  Encoding; Default: ISO-8859-1]
  *[@param  bool  Safe Mode: if set to TRUE, the original string is retunred on errors]
- * @return  string  The encoded string or false on failure
+ *
+ * @return string  The encoded string or false on failure
+ *
  * @since 0.0.1
  */
 function encode_utf8($string = '', $encoding = 'iso-8859-1', $safe_mode = false)
 {
     $safe = ($safe_mode) ? $string : false;
+
     if (strtoupper($encoding) == 'UTF-8' || strtoupper($encoding) == 'UTF8') {
         return $string;
-    } elseif (strtoupper($encoding) == 'ISO-8859-1') {
-        return utf8_encode($string);
-    } elseif (strtoupper($encoding) == 'WINDOWS-1252') {
-        return utf8_encode(map_w1252_iso8859_1($string));
+    } elseif ( strtoupper( $encoding ) == 'ISO-8859-1' ) {
+        return mb_convert_encoding( $string, 'UTF-8', 'ISO-8859-1' );
+    } elseif ( strtoupper( $encoding ) == 'WINDOWS-1252' ) {
+        return mb_convert_encoding( map_w1252_iso8859_1($string), 'UTF-8', 'ISO-8859-1' );
     } elseif (strtoupper($encoding) == 'UNICODE-1-1-UTF-7') {
         $encoding = 'utf-7';
     }
-    if (function_exists('mb_convert_encoding')) {
-        $conv = @mb_convert_encoding($string, 'UTF-8', strtoupper($encoding));
-        if ($conv) return $conv;
-    }
+
     if (function_exists('iconv')) {
         $conv = @iconv(strtoupper($encoding), 'UTF-8', $string);
         if ($conv) return $conv;
@@ -59,16 +59,13 @@ function decode_utf8($string = '', $encoding = 'iso-8859-1', $safe_mode = false)
     if (strtoupper($encoding) == 'UTF-8' || strtoupper($encoding) == 'UTF8') {
         return $string;
     } elseif (strtoupper($encoding) == 'ISO-8859-1') {
-        return utf8_decode($string);
+        return mb_convert_encoding( $string, 'ISO-8859-1', 'UTF-8' );
     } elseif (strtoupper($encoding) == 'WINDOWS-1252') {
-        return map_iso8859_1_w1252(utf8_decode($string));
+        return map_iso8859_1_w1252( mb_convert_encoding( $string, 'ISO-8859-1', 'UTF-8' ) );
     } elseif (strtoupper($encoding) == 'UNICODE-1-1-UTF-7') {
         $encoding = 'utf-7';
     }
-    if (function_exists('mb_convert_encoding')) {
-        $conv = @mb_convert_encoding($string, strtoupper($encoding), 'UTF-8');
-        if ($conv) return $conv;
-    }
+
     if (function_exists('iconv')) {
         $conv = @iconv('UTF-8', strtoupper($encoding), $string);
         if ($conv) return $conv;
@@ -84,7 +81,9 @@ function decode_utf8($string = '', $encoding = 'iso-8859-1', $safe_mode = false)
  * Special treatment for our guys in Redmond
  * Windows-1252 is basically ISO-8859-1 -- with some exceptions, which get accounted for here
  * @param  string  Your input in Win1252
- * @param  string  The resulting ISO-8859-1 string
+ *
+ * @return  string  The resulting ISO-8859-1 string
+ *
  * @since 3.0.8
  */
 function map_w1252_iso8859_1($string = '')
@@ -110,8 +109,11 @@ function map_w1252_iso8859_1($string = '')
 /**
  * Special treatment for our guys in Redmond
  * Windows-1252 is basically ISO-8859-1 -- with some exceptions, which get accounted for here
+ *
  * @param  string  Your input in ISO-8859-1
- * @param  string  The resulting Win1252 string
+ *
+ * @return  string  The resulting Win1252 string
+ *
  * @since 3.0.8
  */
 function map_iso8859_1_w1252($string = '')
@@ -133,4 +135,3 @@ function map_iso8859_1_w1252($string = '')
     }
     return $return;
 }
-
